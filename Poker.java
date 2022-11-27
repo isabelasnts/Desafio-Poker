@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.lang.Exception;
+
 import static java.lang.System.exit;
 
 public class Poker {
@@ -10,7 +11,7 @@ public class Poker {
             try {
                 System.out.println("\nQuantas pessoas irão jogar?");
                 String entrada = scan.next();
-                if (!entrada.matches("^[0-9]*$") ){
+                if (!entrada.matches("^[0-9]*$")) {
                     throw new Exception();
                 }
                 numJogadores = Integer.parseInt(entrada);
@@ -27,6 +28,7 @@ public class Poker {
         }
         return numJogadores;
     }
+
     public static void main(String[] args) throws Exception {
 
         Scanner scan = new Scanner(System.in);
@@ -66,7 +68,7 @@ public class Poker {
             lj.add(jogadores[i]);
         }
 
-        for (; ;) {
+        for (; ; ) {
             double pote = 0;
             lj.jogadorAtual = lj.jogadorBlind;
             if (lj.jogadorAtual.d.retiraDinheiro(apostaBlind)) {
@@ -76,22 +78,23 @@ public class Poker {
             String resposta;
             String ganhador;
             int isApto = numJogadores;
-            while(true) {
+            while (true) {
                 lj.jogadorAtual = lj.jogadorAtual.next;
-                if(lj.jogadorAtual.d.getApto()==false){
+                if (lj.jogadorAtual.d.getApto() == false) {
                     continue;
                 }
-                if(isApto == 1) {
+                if (isApto == 1) {
                     fimJogo(mesa, baralho, numJogadores, jogadores, pote);
                 }
                 if (lj.jogadorAtual == lj.jogadorBlind) {
                     while (lj.jogadorAtual != lj.ultimoJg) {
                         if ((controleAposta != lj.jogadorAtual.d.getAposta()) && (lj.jogadorAtual.d.getApto())) {
-                            System.out.println("Jogador " + lj.jogadorAtual.d.getNome() + " deseja igualar a aposta? Digite sim ou nao");
+                            System.out.println("Jogador " + lj.jogadorAtual.d.getNome() +
+                                    " deseja igualar a aposta? Digite sim ou nao");
                             resposta = scan.next();
                             if (resposta.equalsIgnoreCase("sim")) {
                                 pote += controleAposta - lj.jogadorAtual.d.getAposta();
-                                System.out.println("\nValor atual da mesa: "+String.valueOf(pote));
+                                System.out.println("\nValor atual da mesa: " + String.valueOf(pote));
                                 lj.jogadorAtual.d.retiraDinheiro(controleAposta - lj.jogadorAtual.d.getAposta());
                                 lj.jogadorAtual.d.addAposta(controleAposta - lj.jogadorAtual.d.getAposta());
                             }
@@ -100,38 +103,39 @@ public class Poker {
                     }
                     fimJogo(mesa, baralho, numJogadores, jogadores, pote);
                 }
-                System.out.println("\nJogador "+lj.jogadorAtual.d.getNome()+ ", deseja apostar? Digite sim ou nao");
+                System.out.println("\nJogador " + lj.jogadorAtual.d.getNome() + ", deseja apostar? Digite sim ou nao");
                 resposta = scan.next();
                 if (resposta.equalsIgnoreCase("sim")) {
                     System.out.println("quanto deseja apostar?");
                     double aposta = scan.nextDouble();
-                    if(aposta < controleAposta) {
+                    if (aposta < controleAposta) {
                         System.out.println("\nVoce deve apostar no mínimo " + controleAposta);
                         aposta = scan.nextDouble();
                     }
                     if (lj.jogadorAtual.d.retiraDinheiro(aposta)) {
                         pote += aposta;
-                        if(aposta>controleAposta){
+                        if (aposta > controleAposta) {
                             controleAposta = aposta;
-                        }else if(aposta < controleAposta) {
+                        } else if (aposta < controleAposta) {
                             System.out.println("\nValor atual da mesa: ");
                         }
                         lj.jogadorAtual.d.addAposta(aposta);
-                        System.out.println("\nValor atual da mesa: "+String.valueOf(pote));
+                        System.out.println("\nValor atual da mesa: " + String.valueOf(pote));
                     } else {
-                        System.out.println("Você não pode apostar $" + aposta + ". Saldo disponível: $" + lj.jogadorAtual.d.getSaldo());
+                        System.out.println("Você não pode apostar $" + aposta + ". Saldo disponível: $"
+                                + lj.jogadorAtual.d.getSaldo());
                     }
                     continue;
                 } else if (resposta.equalsIgnoreCase("nao")) {
                     lj.jogadorAtual.d.Inapto();
                     isApto--;
-                    for(int i = 0; i<numJogadores; i++){
-                        if(jogadores[i].getNome() == lj.jogadorAtual.d.getNome()){
+                    for (int i = 0; i < numJogadores; i++) {
+                        if (jogadores[i].getNome() == lj.jogadorAtual.d.getNome()) {
                             jogadores[i].Inapto();
                         }
                     }
-                    for(int i = 0; i<numJogadores; i++){
-                        if(jogadores[i].getApto()){
+                    for (int i = 0; i < numJogadores; i++) {
+                        if (jogadores[i].getApto()) {
                             jogadores[i].imprimeJogador();
                         }
                     }
@@ -144,18 +148,18 @@ public class Poker {
         String ganhador;
         Scanner scan = new Scanner(System.in);
         System.out.println("\nCartas na mesa: ");
-        for (int i=0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             mesa[i] = baralho.darCarta();
-            System.out.print(mesa[i].get()+" ");
+            System.out.print(mesa[i].get() + " ");
         }
-        for(int i = 0; i<numJogadores; i++){
-            if(jogadores[i].getApto()){
+        for (int i = 0; i < numJogadores; i++) {
+            if (jogadores[i].getApto()) {
                 jogadores[i].imprimeJogador();
             }
         }
         System.out.println("\nQuem ganhou a rodada? Digite o nome do jogador.");
         ganhador = scan.next();
-        System.out.println("Parabéns jogador "+ganhador+"!\nVocê ganhou: $"+pote);
+        System.out.println("Parabéns jogador " + ganhador + "!\nVocê ganhou: $" + pote);
         exit(0);
     }
 }
