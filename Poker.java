@@ -159,7 +159,7 @@ public class Poker {
         }
         System.out.println("\nQuem ganhou a rodada? Digite o nome do jogador.");
         ganhador = scan.next();
-        System.out.println("Parabéns jogador " + ganhador + "!\nVocê ganhou: $" + pote);
+        System.out.println("\nParabéns jogador " + ganhador + "!\nVocê ganhou: $" + pote);
         exit(0);
     }
 }
