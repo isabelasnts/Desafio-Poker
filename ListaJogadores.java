@@ -11,9 +11,7 @@ public class ListaJogadores {
             this.d = d;
         }
     }
-    public void imprimeAptos(){
-//        while
-    }
+    
     public cicloJogadores jogadorBlind = null;
     public cicloJogadores jogadorAtual = null;
     public cicloJogadores ultimoJg = null;
